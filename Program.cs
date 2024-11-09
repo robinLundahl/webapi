@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<SongService>();
+builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
 

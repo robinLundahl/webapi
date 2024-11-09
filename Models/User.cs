@@ -12,6 +12,6 @@ public class User
     [Required]
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
-    public string QRCode { get; set; }
+    public string? QRCode { get; set; }
 
 }

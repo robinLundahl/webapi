@@ -10,7 +10,7 @@ using webapi.infrastuctor;
 namespace webapi.Migrations
 {
     [DbContext(typeof(TrubadurenContext))]
-    [Migration("20241109102934_InitialCreate")]
+    [Migration("20241109105535_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -68,7 +68,6 @@ namespace webapi.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("QRCode")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

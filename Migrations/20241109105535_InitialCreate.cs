@@ -36,7 +36,7 @@ namespace webapi.Migrations
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: false),
-                    QRCode = table.Column<string>(type: "TEXT", nullable: false)
+                    QRCode = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

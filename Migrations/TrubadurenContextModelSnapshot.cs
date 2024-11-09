@@ -65,7 +65,6 @@ namespace webapi.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("QRCode")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
