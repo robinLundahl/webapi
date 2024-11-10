@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using webapi.Service;
 using Entities.Models;
 using Entitites.DTOs.User;
+using webapi.Service.UserInterface;
 
 namespace webapi.Controllers;
 
@@ -9,9 +9,9 @@ namespace webapi.Controllers;
 [Route("/api")]
 public class UserController : ControllerBase
 {
-    private readonly UserService _userService;
+    private readonly IUserService _userService;
 
-    public UserController(UserService userService)
+    public UserController(IUserService userService)
     {
         _userService = userService;
     }
@@ -48,7 +48,6 @@ public class UserController : ControllerBase
     {
         try
         {
-            Console.WriteLine("Denna användare har följande information:" + user.Id);
             var createdUser = await _userService.AddUserAsync(user);
 
             if (createdUser == null)

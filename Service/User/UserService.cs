@@ -36,8 +36,16 @@ public class UserService : IUserService
 
     public async Task<UserDTO?> GetUserByIdAsync(int id)
     {
-        var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
-        return user.Adapt<UserDTO>();
+        try
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return user.Adapt<UserDTO>();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to retrieve the user with id: {id}.", id);
+            throw;
+        }
     }
 
     public async Task<UserDTO?> AddUserAsync(User user)
@@ -81,10 +89,5 @@ public class UserService : IUserService
             await _db.SaveChangesAsync();
         }
         return user;
-    }
-
-    Task<User?> IUserService.GetUserByIdAsync(int id)
-    {
-        throw new NotImplementedException();
     }
 }

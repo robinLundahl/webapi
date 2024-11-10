@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using webapi.Service;
 using Entities.Models;
+using webapi.Service.SongInterface;
 
 namespace webapi.Controllers;
 
@@ -8,9 +8,9 @@ namespace webapi.Controllers;
 [Route("/api")]
 public class SongController : ControllerBase
 {
-    private readonly SongService _songService;
+    private readonly ISongService _songService;
 
-    public SongController(SongService songService)
+    public SongController(ISongService songService)
     {
         _songService = songService;
     }
@@ -48,15 +48,20 @@ public class SongController : ControllerBase
         try
         {
             var createdSong = await _songService.AddSongAsync(song);
+
+            if (createdSong == null)
+            {
+                return BadRequest("Failed to add new song.");
+            }
             return CreatedAtAction(
                 nameof(GetSongByIdAsync),
                 new { id = createdSong.Id },
                 createdSong
             );
         }
-        catch
+        catch (Exception ex)
         {
-            return BadRequest("Failed to add new song.");
+            return BadRequest(ex.Message);
         }
     }
 

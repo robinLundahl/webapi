@@ -4,7 +4,7 @@ POST http://localhost:5240/api/song HTTP/1.1
 Content-Type: application/json
 
 {
-    "SongName": "Know Your Enemy",
+    "SongName": "Basket Case",
     "ArtistName": "Green Day",
     "Genre": "Rock"
 }
@@ -39,10 +39,10 @@ POST http://localhost:5240/api/user HTTP/1.1
 Content-Type: application/json
 
 {
-    "FirstName": "Fisen",
+    "FirstName": "Lorten",
     "LastName": "Lundahl",
-    "Email": "robin.lundassssssssshl@hssotma5sil.se",
-    "PhoneNumber": "0702428ssssssssssss4s265",
+    "Email": "robin.lundasssssssssshl@hssotma5sil.se",
+    "PhoneNumber": "0702428sssssssssssss4s265",
     "Password": "asdffdg234"
 }
 
@@ -52,15 +52,15 @@ GET http://localhost:5240/api/user HTTP/1.1
 
 ###
 
-GET http://localhost:5240/api/user/1 HTTP/1.1
+GET http://localhost:5240/api/user/12 HTTP/1.1
 
 ###
 
-DELETE http://localhost:5240/api/user/2 HTTP/1.1
+DELETE http://localhost:5240/api/user/5 HTTP/1.1
 
 ###
 
-PUT http://localhost:5240/api/user/1 HTTP/1.1
+PUT http://localhost:5240/api/user/12 HTTP/1.1
 Content-Type: application/json
 
 {
