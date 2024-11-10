@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Entitites.DTOs.User;
 
-public class User
+public class UserDTO
 {
     public int Id { get; set; }
     [Required]
@@ -13,5 +13,4 @@ public class User
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public string? QRCode { get; set; }
-
 }

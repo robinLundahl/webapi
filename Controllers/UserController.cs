@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using webapi.Service;
 using Entities.Models;
+using Entitites.DTOs.User;
 
 namespace webapi.Controllers;
 
@@ -16,7 +17,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("user")]
-    public async Task<ActionResult> GetAllUsersAsync()
+    public async Task<ActionResult<IEnumerable<UserDTO>>> GetAllUsersAsync()
     {
         try
         {
@@ -29,7 +30,8 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("user/{id:int}")]
-    public async Task<ActionResult> GetUserByIdAsync(int id)
+    [ActionName("GetUserByIdAsync")]
+    public async Task<ActionResult<UserDTO>> GetUserByIdAsync(int id)
     {
         try
         {
@@ -42,16 +44,26 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("user")]
-    public async Task<ActionResult> AddUserAsync(User user)
+    public async Task<ActionResult<UserDTO>> AddUserAsync(User user)
     {
         try
         {
-            await _userService.AddUserAsync(user);
-            return Created();
+            Console.WriteLine("Denna användare har följande information:" + user.Id);
+            var createdUser = await _userService.AddUserAsync(user);
+
+            if (createdUser == null)
+            {
+                return BadRequest("Failed to add new user.");
+            }
+            return CreatedAtAction(
+                nameof(GetUserByIdAsync),
+                new { id = createdUser.Id },
+                createdUser
+            );
         }
-        catch
+        catch (Exception ex)
         {
-            return BadRequest("Failed to add new user.");
+            return BadRequest(ex.Message);
         }
     }
 

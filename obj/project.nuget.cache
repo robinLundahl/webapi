@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "36WX2Ru7qXNmon7leBSI6K+gmw36RyrtRNpvnkn2FjSQpgCohla0HxR7CpKBccWveWi368NQGlPElFLss9zw0Q==",
+  "dgSpecHash": "r+EZ6mYbvFxQXdNk3y9pmyh1OOeRAabNR1ul2J1ow7xCW/3nwjgTmmR1NUHXhyTwOBOFIIvhgNmm8AHaqjHpsg==",
   "success": true,
   "projectFilePath": "/Users/robinlundahl/Desktop/Programmering/trubaduren/webapi/webapi.csproj",
   "expectedPackageFiles": [
     "/Users/robinlundahl/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/Users/robinlundahl/.nuget/packages/mapster/7.4.0/mapster.7.4.0.nupkg.sha512",
+    "/Users/robinlundahl/.nuget/packages/mapster.core/1.2.1/mapster.core.1.2.1.nupkg.sha512",
     "/Users/robinlundahl/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/Users/robinlundahl/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.3/microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
     "/Users/robinlundahl/.nuget/packages/microsoft.codeanalysis.common/4.5.0/microsoft.codeanalysis.common.4.5.0.nupkg.sha512",

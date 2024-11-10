@@ -4,7 +4,7 @@ POST http://localhost:5240/api/song HTTP/1.1
 Content-Type: application/json
 
 {
-    "SongName": "Warning",
+    "SongName": "American Idiot",
     "ArtistName": "Green Day",
     "Genre": "Rock"
 }
@@ -39,12 +39,11 @@ POST http://localhost:5240/api/user HTTP/1.1
 Content-Type: application/json
 
 {
-    "FirstName": "Sandra",
-    "LastName": "Bjork",
-    "Email": "sandra.lundahl@hotmail.se",
-    "PhoneNumber": "0702424416",
-    "Password": "hejhej"
-
+    "FirstName": "Fisen",
+    "LastName": "Lundahl",
+    "Email": "robin.lundassssssssshl@hssotma5sil.se",
+    "PhoneNumber": "0702428ssssssssssss4s265",
+    "Password": "asdffdg234"
 }
 
 ###

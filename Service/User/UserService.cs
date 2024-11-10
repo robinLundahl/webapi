@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using webapi.Infrastructor;
 using Entities.Models;
+using Entitites.DTOs.User;
+using Mapster;
 
 namespace webapi.Service;
 
@@ -15,18 +17,14 @@ public class UserService
         _logger = logger;
     }
 
-    public async Task<User?> GetUserByIdAsync(int id)
-    {
-        var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
-        return user;
-    }
-
-    public async Task<List<User>> GetAllUsersAsync()
+    public async Task<List<UserDTO>> GetAllUsersAsync()
     {
         try
         {
-            return await _db.Users
+            var users = await _db.Users
              .OrderBy(u => u.Id).ToListAsync();
+
+            return users.Adapt<List<UserDTO>>();
         }
         catch (Exception ex)
         {
@@ -35,7 +33,13 @@ public class UserService
         }
     }
 
-    public async Task<User?> AddUserAsync(User user)
+    public async Task<UserDTO?> GetUserByIdAsync(int id)
+    {
+        var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
+        return user.Adapt<UserDTO>();
+    }
+
+    public async Task<UserDTO?> AddUserAsync(User user)
     {
         string lowercaseEmail = user.Email.ToLower();
 
@@ -46,10 +50,9 @@ public class UserService
         {
             throw new Exception("The email address and/or the phone number already exists in the database.");
         }
-
         await _db.Users.AddAsync(user);
         await _db.SaveChangesAsync();
-        return user;
+        return user.Adapt<UserDTO>();
     }
 
     public async Task<User?> DeleteUserAsync(int id)
