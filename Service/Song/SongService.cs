@@ -16,19 +16,6 @@ public class SongService : ISongService
         _db = db;
     }
 
-    public async Task<Song?> GetSongByIdAsync(int id)
-    {
-        try
-        {
-            return await _db.Songs.FirstOrDefaultAsync(s => s.Id == id);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to retrieve the user with id: {id}.", id);
-            throw;
-        }
-    }
-
     public async Task<List<Song>> GetAllSongsAsync()
     {
         try
@@ -42,6 +29,20 @@ public class SongService : ISongService
             throw;
         }
     }
+
+    public async Task<Song?> GetSongByIdAsync(int id)
+    {
+        try
+        {
+            return await _db.Songs.FirstOrDefaultAsync(s => s.Id == id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to retrieve the user with id: {id}.", id);
+            throw;
+        }
+    }
+
     public async Task<Song?> AddSongAsync(Song song)
     {
         string lowercaseSongName = song.SongName.ToLower();
@@ -87,5 +88,3 @@ public class SongService : ISongService
     }
 
 }
-
-
