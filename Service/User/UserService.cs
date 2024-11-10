@@ -7,16 +7,32 @@ namespace webapi.Service;
 public class UserService
 {
     private readonly TrubadurenContext _db;
+    private readonly ILogger<UserService> _logger;
 
-    public UserService(TrubadurenContext db)
+    public UserService(TrubadurenContext db, ILogger<UserService> logger)
     {
         _db = db;
+        _logger = logger;
     }
 
     public async Task<User?> GetUserByIdAsync(int id)
     {
         var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
         return user;
+    }
+
+    public async Task<List<User>> GetAllUsersAsync()
+    {
+        try
+        {
+            return await _db.Users
+             .OrderBy(u => u.Id).ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to retrieve the users.");
+            throw;
+        }
     }
 
     public async Task<User?> AddUserAsync(User user)
@@ -56,6 +72,7 @@ public class UserService
             user.LastName = userToUpdate.LastName;
             user.Email = userToUpdate.Email;
             user.PhoneNumber = userToUpdate.PhoneNumber;
+            user.Password = userToUpdate.Password;
             _db.Users.Update(user);
             await _db.SaveChangesAsync();
         }

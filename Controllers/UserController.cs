@@ -23,23 +23,27 @@ public class UserController : ControllerBase
     [HttpGet("user")]
     public async Task<ActionResult> GetAllUsersAsync()
     {
-        var users = await _db.Users
-        .OrderBy(s => s.LastName).ToListAsync();
-
-        return Ok(users);
+        try
+        {
+            return Ok(await _userService.GetAllUsersAsync());
+        }
+        catch
+        {
+            return NotFound("Could not find the requested list of users.");
+        }
     }
 
     [HttpGet("user/{id:int}")]
     public async Task<ActionResult> GetUserByIdAsync(int id)
     {
-        var user = await _db.Users.FindAsync(id);
-
-        if (user == null)
+        try
         {
-            return NotFound(new { message = "user not found", id = user.Id });
+            return Ok(await _userService.GetUserByIdAsync(id));
         }
-
-        return Ok(user);
+        catch
+        {
+            return NotFound("Could not find the requested user.");
+        }
     }
 
     [HttpPost("user")]
@@ -47,41 +51,50 @@ public class UserController : ControllerBase
     {
         try
         {
-            var userAdded = await _userService.AddUserAsync(user);
-
-            return Created("user" + userAdded.FirstName, userAdded);
+            await _userService.AddUserAsync(user);
+            return Created();
         }
-        catch (Exception ex)
+        catch
         {
-            return BadRequest(new { message = ex.Message });
+            return BadRequest("Failed to add new user.");
         }
     }
 
     [HttpDelete("user/{id:int}")]
-    public async Task<ActionResult> DeleteuserAsync(int id)
+    public async Task<ActionResult> DeleteUserAsync(int id)
     {
-        var deletedUser = await _userService.DeleteUserAsync(id);
-        if (deletedUser != null)
+        try
         {
-            return NoContent();
-        }
-        else
-        {
+            var deletedUser = await _userService.DeleteUserAsync(id);
+            if (deletedUser != null)
+            {
+                return NoContent();
+            }
+
             return BadRequest("You can't delete a user that doesn't exist.");
+        }
+        catch
+        {
+            return StatusCode(500, "An error occurred while deleting the user.");
         }
     }
 
     [HttpPut("user/{id:int}")]
-    public async Task<ActionResult> UpdateuserAsync(int id, User userToUpdate)
+    public async Task<ActionResult> UpdateUserAsync(int id, User userToUpdate)
     {
-        var updatedUser = await _userService.UpdateUserAsync(id, userToUpdate);
-        if (updatedUser != null)
+        try
         {
-            return Ok("The user was successfully updated.");
-        }
-        else
-        {
+            var updatedUser = await _userService.UpdateUserAsync(id, userToUpdate);
+            if (updatedUser != null)
+            {
+                return Ok("The user was successfully updated.");
+            }
+
             return BadRequest("Not possible to update the user.");
+        }
+        catch
+        {
+            return StatusCode(500, "An error occurred while updating the user.");
         }
     }
 }
