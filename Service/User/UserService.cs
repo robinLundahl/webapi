@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using webapi.infrastuctor;
-using webapi.models;
+using webapi.Infrastructor;
+using Entities.Models;
 
 namespace webapi.Service;
 

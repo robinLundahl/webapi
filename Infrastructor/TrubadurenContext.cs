@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using webapi.models;
+using Entities.Models;
 
-namespace webapi.infrastuctor;
+namespace webapi.Infrastructor;
 
 public class TrubadurenContext : DbContext
 {

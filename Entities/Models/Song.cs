@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace webapi.models;
+namespace Entities.Models;
 
 public class Song
 {

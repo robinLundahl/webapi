@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webapi.Service;
-using webapi.infrastuctor;
-using webapi.models;
+using webapi.Infrastructor;
+using Entities.Models;
 
 namespace webapi.Controllers;
 
@@ -10,36 +10,37 @@ namespace webapi.Controllers;
 [Route("/api")]
 public class SongController : ControllerBase
 {
-
-    private readonly TrubadurenContext _db;
     private readonly SongService _songService;
 
-    public SongController(TrubadurenContext db, SongService songService)
+    public SongController(SongService songService)
     {
-        _db = db;
         _songService = songService;
     }
 
     [HttpGet("song")]
     public async Task<ActionResult> GetAllSongsAsync()
     {
-        var songs = await _db.Songs
-        .OrderBy(s => s.ArtistName).ToListAsync();
-
-        return Ok(songs);
+        try
+        {
+            return Ok(await _songService.GetAllSongsAsync());
+        }
+        catch
+        {
+            return NotFound("Could not find the requested list of songs.");
+        }
     }
 
     [HttpGet("song/{id:int}")]
     public async Task<ActionResult> GetSongByIdAsync(int id)
     {
-        var song = await _db.Songs.FindAsync(id);
-
-        if (song == null)
+        try
         {
-            return NotFound(new { message = "Song not found", id = song.Id });
+            return Ok(await _songService.GetSongByIdAsync(id));
         }
-
-        return Ok(song);
+        catch
+        {
+            return NotFound("Could not find the requested song.");
+        }
     }
 
     [HttpPost("song")]
@@ -47,41 +48,50 @@ public class SongController : ControllerBase
     {
         try
         {
-            var songAdded = await _songService.AddSongAsync(song);
-
-            return Created("Song" + songAdded.SongName, songAdded);
+            await _songService.AddSongAsync(song);
+            return Created();
         }
-        catch (Exception ex)
+        catch
         {
-            return BadRequest(new { message = ex.Message });
+            return BadRequest("Failed to add new song.");
         }
     }
 
     [HttpDelete("song/{id:int}")]
     public async Task<ActionResult> DeleteSongAsync(int id)
     {
-        var deletedSong = await _songService.DeleteSongAsync(id);
-        if (deletedSong != null)
+        try
         {
-            return NoContent();
-        }
-        else
-        {
+            var deletedSong = await _songService.DeleteSongAsync(id);
+            if (deletedSong != null)
+            {
+                return NoContent();
+            }
+
             return BadRequest("You can't delete a song that doesn't exist.");
+        }
+        catch
+        {
+            return StatusCode(500, "An error occurred while deleting the song.");
         }
     }
 
     [HttpPut("song/{id:int}")]
     public async Task<ActionResult> UpdateSongAsync(int id, Song songToUpdate)
     {
-        var updatedSong = await _songService.UpdateSongAsync(id, songToUpdate);
-        if (updatedSong != null)
+        try
         {
-            return Ok("The song was successfully updated.");
-        }
-        else
-        {
+            var updatedSong = await _songService.UpdateSongAsync(id, songToUpdate);
+            if (updatedSong != null)
+            {
+                return Ok("The song was successfully updated.");
+            }
+
             return BadRequest("Not possible to update the song.");
+        }
+        catch
+        {
+            return StatusCode(500, "An error occurred while updating the song.");
         }
     }
 }

@@ -1,22 +1,45 @@
 using Microsoft.EntityFrameworkCore;
-using webapi.infrastuctor;
-using webapi.models;
+using webapi.Infrastructor;
+using Entities.Models;
 
 namespace webapi.Service;
 
 public class SongService
 {
     private readonly TrubadurenContext _db;
+    private readonly ILogger<SongService> _logger;
 
-    public SongService(TrubadurenContext db)
+    public SongService(TrubadurenContext db, ILogger<SongService> logger)
     {
+        _logger = logger;
         _db = db;
     }
 
     public async Task<Song?> GetSongByIdAsync(int id)
     {
-        var song = await _db.Songs.FirstOrDefaultAsync(s => s.Id == id);
-        return song;
+        try
+        {
+            return await _db.Songs.FirstOrDefaultAsync(s => s.Id == id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to retrieve the user with id: {id}.", id);
+            throw;
+        }
+    }
+
+    public async Task<List<Song>> GetAllSongsAsync()
+    {
+        try
+        {
+            return await _db.Songs
+            .OrderBy(s => s.ArtistName).ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to retrieve the songs.");
+            throw;
+        }
     }
     public async Task<Song?> AddSongAsync(Song song)
     {
