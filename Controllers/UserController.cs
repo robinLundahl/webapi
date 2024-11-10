@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using webapi.Service;
-using webapi.Infrastructor;
 using Entities.Models;
 
 namespace webapi.Controllers;
@@ -10,13 +8,10 @@ namespace webapi.Controllers;
 [Route("/api")]
 public class UserController : ControllerBase
 {
-
-    private readonly TrubadurenContext _db;
     private readonly UserService _userService;
 
-    public UserController(TrubadurenContext db, UserService userService)
+    public UserController(UserService userService)
     {
-        _db = db;
         _userService = userService;
     }
 
@@ -47,7 +42,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("user")]
-    public async Task<ActionResult> AdduserAsync(User user)
+    public async Task<ActionResult> AddUserAsync(User user)
     {
         try
         {
