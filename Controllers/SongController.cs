@@ -29,6 +29,7 @@ public class SongController : ControllerBase
     }
 
     [HttpGet("song/{id:int}")]
+    [ActionName("GetSongByIdAsync")]
     public async Task<ActionResult> GetSongByIdAsync(int id)
     {
         try
@@ -46,8 +47,12 @@ public class SongController : ControllerBase
     {
         try
         {
-            await _songService.AddSongAsync(song);
-            return Created();
+            var createdSong = await _songService.AddSongAsync(song);
+            return CreatedAtAction(
+                nameof(GetSongByIdAsync),
+                new { id = createdSong.Id },
+                createdSong
+            );
         }
         catch
         {
