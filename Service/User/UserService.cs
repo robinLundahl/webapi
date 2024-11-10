@@ -3,10 +3,11 @@ using webapi.Infrastructor;
 using Entities.Models;
 using Entitites.DTOs.User;
 using Mapster;
+using webapi.Service.UserInterface;
 
 namespace webapi.Service;
 
-public class UserService
+public class UserService : IUserService
 {
     private readonly TrubadurenContext _db;
     private readonly ILogger<UserService> _logger;
@@ -80,5 +81,10 @@ public class UserService
             await _db.SaveChangesAsync();
         }
         return user;
+    }
+
+    Task<User?> IUserService.GetUserByIdAsync(int id)
+    {
+        throw new NotImplementedException();
     }
 }
