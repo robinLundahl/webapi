@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using webapi.Infrastructor;
 using Entities.Models;
+using webapi.Service.SongInterface;
 
 namespace webapi.Service;
 
-public class SongService
+public class SongService : ISongService
 {
     private readonly TrubadurenContext _db;
     private readonly ILogger<SongService> _logger;
