@@ -21,7 +21,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            return Ok(await _userService.GetAllUsersAsync());
+            return Ok(await _userService.GetAsync());
         }
         catch
         {
@@ -29,13 +29,13 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("user/{id:int}")]
+    [HttpGet("user/{id:Guid}")]
     [ActionName("GetUserByIdAsync")]
-    public async Task<ActionResult<UserDTO>> GetUserByIdAsync(int id)
+    public async Task<ActionResult<UserDTO>> GetUserByIdAsync(Guid id)
     {
         try
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetAsync(id);
             if (user == null)
             {
                 return NotFound($"User with ID {id} was not found");
@@ -53,7 +53,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var createdUser = await _userService.AddUserAsync(user);
+            var createdUser = await _userService.CreateAsync(user);
 
             if (createdUser == null)
             {
@@ -71,12 +71,12 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpDelete("user/{id:int}")]
-    public async Task<ActionResult> DeleteUserAsync(int id)
+    [HttpDelete("user/{id:Guid}")]
+    public async Task<ActionResult> DeleteUserAsync(User user)
     {
         try
         {
-            var deletedUser = await _userService.DeleteUserAsync(id);
+            var deletedUser = await _userService.DeleteAsync(user);
             if (deletedUser != null)
             {
                 return NoContent();
@@ -90,12 +90,12 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPut("user/{id:int}")]
-    public async Task<ActionResult> UpdateUserAsync(int id, User userToUpdate)
+    [HttpPut("user/{id:Guid}")]
+    public async Task<ActionResult> UpdateUserAsync(Guid id, User userToUpdate)
     {
         try
         {
-            var updatedUser = await _userService.UpdateUserAsync(id, userToUpdate);
+            var updatedUser = await _userService.UpdateAsync(id, userToUpdate);
             if (updatedUser != null)
             {
                 return Ok("The user was successfully updated.");

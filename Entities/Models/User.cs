@@ -4,7 +4,7 @@ namespace Entities.Models;
 
 public class User
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     [Required]
     public string FirstName { get; set; }
     [Required]
@@ -15,5 +15,4 @@ public class User
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
     public string? QRCode { get; set; }
-
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Entities.Models;
-using webapi.Service.SongInterface;
+using webapi.Services.SongInterface;
 
 namespace webapi.Controllers;
 
@@ -15,12 +15,12 @@ public class SongController : ControllerBase
         _songService = songService;
     }
 
-    [HttpGet("song")]
+    [HttpGet("songs")]
     public async Task<ActionResult> GetAllSongsAsync()
     {
         try
         {
-            return Ok(await _songService.GetAllSongsAsync());
+            return Ok(await _songService.GetAsync());
         }
         catch
         {
@@ -28,13 +28,13 @@ public class SongController : ControllerBase
         }
     }
 
-    [HttpGet("song/{id:int}")]
+    [HttpGet("song/{id:Guid}")]
     [ActionName("GetSongByIdAsync")]
-    public async Task<ActionResult> GetSongByIdAsync(int id)
+    public async Task<ActionResult> GetSongByIdAsync(Guid id)
     {
         try
         {
-            return Ok(await _songService.GetSongByIdAsync(id));
+            return Ok(await _songService.GetAsync(id));
         }
         catch
         {
@@ -47,7 +47,7 @@ public class SongController : ControllerBase
     {
         try
         {
-            var createdSong = await _songService.AddSongAsync(song);
+            var createdSong = await _songService.CreateAsync(song);
 
             if (createdSong == null)
             {
@@ -65,12 +65,12 @@ public class SongController : ControllerBase
         }
     }
 
-    [HttpDelete("song/{id:int}")]
-    public async Task<ActionResult> DeleteSongAsync(int id)
+    [HttpDelete("song/{id:Guid}")]
+    public async Task<ActionResult> DeleteSongAsync(Guid id)
     {
         try
         {
-            var deletedSong = await _songService.DeleteSongAsync(id);
+            var deletedSong = await _songService.DeleteAsync(id);
             if (deletedSong != null)
             {
                 return NoContent();
@@ -84,12 +84,12 @@ public class SongController : ControllerBase
         }
     }
 
-    [HttpPut("song/{id:int}")]
-    public async Task<ActionResult> UpdateSongAsync(int id, Song songToUpdate)
+    [HttpPut("song/{id:Guid}")]
+    public async Task<ActionResult> UpdateSongAsync(Guid id, Song songToUpdate)
     {
         try
         {
-            var updatedSong = await _songService.UpdateSongAsync(id, songToUpdate);
+            var updatedSong = await _songService.UpdateAsync(id, songToUpdate);
             if (updatedSong != null)
             {
                 return Ok("The song was successfully updated.");

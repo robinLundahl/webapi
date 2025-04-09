@@ -13,3 +13,6 @@ nameof(GetSongByIdAsync),
 new { id = createdSong.Id },
 createdSong
 );
+
+För att nå Detta API med javascript, alltså min front-end:
+https://learn.microsoft.com/en-us/aspnet/core/tutorials/web-api-javascript?view=aspnetcore-9.0
