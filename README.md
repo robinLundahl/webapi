@@ -1,18 +1,35 @@
-### Skapa ny migration
+# Trubaduren - Backend API
 
-1. Radera Migration mappen och databasfilerna
-2. Kör kommandot "dotnet ef migrations add InitialCreate"
-3. Kör kommandot "dotnet ef database update"
+Detta är backendprojektet för Trubaduren – en webbtjänst som hanterar låtar, önskemål och andra funktioner för en trubadur. Projektet är byggt med ASP.NET Core och använder Entity Framework Core tillsammans med SQLite som databas. Eventuella integreringar med frontend-ramverk tillkommer och annan databas ska senare införas.
 
-<!-- För att returnera CreatedAtAction så måste man sätta   [HttpGet("song/{id:int}")]
-                                                            [ActionName("GetSongByIdAsync")]
-på den metoden som är inuti (nameof)-->
+## 🧰 Teknikstack
 
-return CreatedAtAction(
-nameof(GetSongByIdAsync),
-new { id = createdSong.Id },
-createdSong
-);
+- ASP.NET Core Web API
+- Entity Framework Core
+- SQLite
+- Mapster (för objektmappning)
 
-För att nå Detta API med javascript, alltså min front-end:
-https://learn.microsoft.com/en-us/aspnet/core/tutorials/web-api-javascript?view=aspnetcore-9.0
+---
+
+## 🚀 Kom igång
+
+Följ stegen nedan för att komma igång med projektet lokalt.
+
+### 1. Klona repot
+
+```bash
+git clone https://github.com/robinLundahl/webapi.git
+cd webapi
+
+Om du använder .NET SDK 7.0 eller senare, kör:
+dotnet restore
+
+Om du använder Entity Framework migrations (Se till att du har dotnet-ef installerat globalt: dotnet tool install --global dotnet-ef):
+dotnet ef database update
+
+Kör projektet:
+dotnet run
+
+```
+
+API:t är nu tillgängligt på http://localhost:5240/Swagger/index.html
